@@ -1,0 +1,22 @@
+version: '3'
+services:
+  gamer:
+    image: esvo:latest
+    container_name: esvo
+    privileged: true
+    volumes:
+      - /dev/bus/usb:/dev/bus/usb
+      - /tmp/.X11-unix/:/tmp/.X11-unix
+      - /home/jwu-iit.local/Code/ESVO/catkin_ws:/app/catkin_ws # Mount recorded data from host. Please change directory.
+      - /home/jwu-iit.local/Code:/app
+    environment:
+      - DISPLAY=unix$DISPLAY
+    network_mode: host
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    command: sleep infinity
